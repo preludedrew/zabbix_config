@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-10-20T20:16:10Z</date>
+    <date>2015-10-20T20:33:34Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -152,7 +152,17 @@
                             <valuemap/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{bfm-template_storage_3ware:3ware_info[{#3WAREDISKNUM},status].str(OK)}=0</expression>
+                            <name>3Ware device {#3WAREDISKNUM} is not OK</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
@@ -8781,16 +8791,6 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS FreeBSD:kernel.maxfiles.last(0)}&lt;1024</expression>
-            <name>Configured max number of opened files is too low on {HOST.NAME}</name>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
             <expression>{Template OS Linux:kernel.maxfiles.last(0)}&lt;1024</expression>
             <name>Configured max number of opened files is too low on {HOST.NAME}</name>
             <url/>
@@ -8801,8 +8801,8 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS FreeBSD:kernel.maxproc.last(0)}&lt;256</expression>
-            <name>Configured max number of processes is too low on {HOST.NAME}</name>
+            <expression>{Template OS FreeBSD:kernel.maxfiles.last(0)}&lt;1024</expression>
+            <name>Configured max number of opened files is too low on {HOST.NAME}</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
@@ -8812,6 +8812,16 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
         </trigger>
         <trigger>
             <expression>{Template OS Linux:kernel.maxproc.last(0)}&lt;256</expression>
+            <name>Configured max number of processes is too low on {HOST.NAME}</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template OS FreeBSD:kernel.maxproc.last(0)}&lt;256</expression>
             <name>Configured max number of processes is too low on {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -8861,7 +8871,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS Linux:system.uname.diff(0)}&gt;0</expression>
+            <expression>{Template OS FreeBSD:system.uname.diff(0)}&gt;0</expression>
             <name>Host information was changed on {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -8871,7 +8881,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS FreeBSD:system.uname.diff(0)}&gt;0</expression>
+            <expression>{Template OS Linux:system.uname.diff(0)}&gt;0</expression>
             <name>Host information was changed on {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -8931,7 +8941,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS Linux:vm.memory.size[available].last(0)}&lt;20M</expression>
+            <expression>{Template OS FreeBSD:vm.memory.size[available].last(0)}&lt;20M</expression>
             <name>Lack of available memory on server {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -8941,7 +8951,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS FreeBSD:vm.memory.size[available].last(0)}&lt;20M</expression>
+            <expression>{Template OS Linux:vm.memory.size[available].last(0)}&lt;20M</expression>
             <name>Lack of available memory on server {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -9001,7 +9011,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template App Zabbix Proxy:zabbix[rcache,buffer,pfree].min(10m)}&lt;25</expression>
+            <expression>{Template App Zabbix Server:zabbix[rcache,buffer,pfree].min(10m)}&lt;25</expression>
             <name>Less than 25% free in the configuration cache</name>
             <url/>
             <status>0</status>
@@ -9011,7 +9021,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template App Zabbix Server:zabbix[rcache,buffer,pfree].min(10m)}&lt;25</expression>
+            <expression>{Template App Zabbix Proxy:zabbix[rcache,buffer,pfree].min(10m)}&lt;25</expression>
             <name>Less than 25% free in the configuration cache</name>
             <url/>
             <status>0</status>
@@ -9126,6 +9136,16 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             </dependencies>
         </trigger>
         <trigger>
+            <expression>{Template OS FreeBSD:system.cpu.load[percpu,avg1].avg(5m)}&gt;5</expression>
+            <name>Processor load is too high on {HOST.NAME}</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
             <expression>{Template OS Linux:system.cpu.load[percpu,avg1].avg(5m)}&gt;5</expression>
             <name>Processor load is too high on {HOST.NAME}</name>
             <url/>
@@ -9146,16 +9166,6 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS FreeBSD:system.cpu.load[percpu,avg1].avg(5m)}&gt;5</expression>
-            <name>Processor load is too high on {HOST.NAME}</name>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
             <expression>{Template ICMP Ping:icmppingsec.avg(5m)}&gt;0.15</expression>
             <name>Response time is too high on {HOST.NAME}</name>
             <url/>
@@ -9171,6 +9181,16 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             </dependencies>
         </trigger>
         <trigger>
+            <expression>{Template OS FreeBSD:proc.num[].avg(5m)}&gt;300</expression>
+            <name>Too many processes on {HOST.NAME}</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
             <expression>{Template OS Windows:proc.num[].avg(5m)}&gt;300</expression>
             <name>Too many processes on {HOST.NAME}</name>
             <url/>
@@ -9182,16 +9202,6 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
         </trigger>
         <trigger>
             <expression>{Template OS Linux:proc.num[].avg(5m)}&gt;300</expression>
-            <name>Too many processes on {HOST.NAME}</name>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{Template OS FreeBSD:proc.num[].avg(5m)}&gt;300</expression>
             <name>Too many processes on {HOST.NAME}</name>
             <url/>
             <status>0</status>
@@ -9411,7 +9421,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Proxy:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Proxy:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;65)</expression>
+            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Server:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Server:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;65)</expression>
             <name>Zabbix ipmi poller processes more than 75% busy</name>
             <url/>
             <status>0</status>
@@ -9421,7 +9431,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Server:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Server:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;65)</expression>
+            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Proxy:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Proxy:zabbix[process,ipmi poller,avg,busy].avg(10m)}&gt;65)</expression>
             <name>Zabbix ipmi poller processes more than 75% busy</name>
             <url/>
             <status>0</status>
@@ -9491,16 +9501,6 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Proxy:zabbix[process,self-monitoring,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Proxy:zabbix[process,self-monitoring,avg,busy].avg(10m)}&gt;65)</expression>
-            <name>Zabbix self-monitoring processes more than 75% busy</name>
-            <url/>
-            <status>0</status>
-            <priority>3</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
             <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Server:zabbix[process,self-monitoring,avg,busy].min(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Server:zabbix[process,self-monitoring,avg,busy].min(10m)}&gt;65)</expression>
             <name>Zabbix self-monitoring processes more than 75% busy</name>
             <url/>
@@ -9511,8 +9511,8 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Proxy:zabbix[process,snmp trapper,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Proxy:zabbix[process,snmp trapper,avg,busy].avg(10m)}&gt;65)</expression>
-            <name>Zabbix snmp trapper processes more than 75% busy</name>
+            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Proxy:zabbix[process,self-monitoring,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Proxy:zabbix[process,self-monitoring,avg,busy].avg(10m)}&gt;65)</expression>
+            <name>Zabbix self-monitoring processes more than 75% busy</name>
             <url/>
             <status>0</status>
             <priority>3</priority>
@@ -9522,6 +9522,16 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
         </trigger>
         <trigger>
             <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Server:zabbix[process,snmp trapper,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Server:zabbix[process,snmp trapper,avg,busy].avg(10m)}&gt;65)</expression>
+            <name>Zabbix snmp trapper processes more than 75% busy</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>({TRIGGER.VALUE}=0&amp;{Template App Zabbix Proxy:zabbix[process,snmp trapper,avg,busy].avg(10m)}&gt;75)|({TRIGGER.VALUE}=1&amp;{Template App Zabbix Proxy:zabbix[process,snmp trapper,avg,busy].avg(10m)}&gt;65)</expression>
             <name>Zabbix snmp trapper processes more than 75% busy</name>
             <url/>
             <status>0</status>
@@ -9601,21 +9611,21 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template OS Windows:system.uptime.change(0)}&lt;0</expression>
-            <name>{HOST.NAME} has just been restarted</name>
-            <url/>
-            <status>0</status>
-            <priority>3</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
             <expression>{Template OS FreeBSD:system.uptime.change(0)}&lt;0</expression>
             <name>{HOST.NAME} has just been restarted</name>
             <url/>
             <status>0</status>
             <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{Template OS Windows:system.uptime.change(0)}&lt;0</expression>
+            <name>{HOST.NAME} has just been restarted</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
             <description/>
             <type>0</type>
             <dependencies/>
